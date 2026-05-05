@@ -1,0 +1,14 @@
+# 2) This will trigger the workflow on pull requests to the main branch. The workflow will run a simple job that prints "Triggered by PR on main branch" to the console.
+name: on-PR Trigger
+
+on:
+    pull_request:
+        branches: [main]
+jobs:
+    print-hello:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Print Hello World
+              run: echo "Triggered by PR on main branch"
+
+
