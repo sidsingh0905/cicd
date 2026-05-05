@@ -19,4 +19,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Print Hello World
-        run: echo "Triggered manually with environment: ${{ github.event.inputs.Environments }}"
+        run: |
+          echo "Triggered manually with environment: ${{ github.event.inputs.Environments }}"
