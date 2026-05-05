@@ -1,0 +1,22 @@
+# 3) Manual workflow trigger: This workflow is triggered manually by a user through the GitHub Actions interface. It allows users to select an environment (dev, staging, production) for deployment. The workflow then prints a message indicating the selected environment.
+name: on-manual-trigger
+
+on:
+    workflow_dispatch:
+       inputs:
+            Environments:
+                description: 'Select the environment to deploy'
+                required: true
+                default: 'dev'
+                type: choice
+                options:
+                    - dev
+                    - staging
+                    - production
+            
+jobs:
+    print-hello:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Print Hello World
+              run: echo "Triggered by manual workflow dispatch with environment: ${{ github.event.inputs.Environments }}"
