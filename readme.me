@@ -1,0 +1,142 @@
+🗺️ GitHub Actions — Complete Practical Roadmap
+📌 Level 1 — Basics
+
+Simple workflow — hello world
+Triggers — push, pull_request, manual (workflow_dispatch)
+Jobs — single job, multiple jobs
+Steps — run commands, use actions
+
+📌 Level 2 — Real CI Concepts
+
+Matrix strategy — multiple versions parallel (jo tune dekha)
+Caching — pip/npm cache for faster builds
+Artifacts — upload/download between jobs
+Environment variables & secrets
+Conditional steps — if: conditions
+
+📌 Level 3 — Multi-Job Workflows
+
+Job dependencies — needs: keyword
+Sequential jobs — build → test → deploy order
+Parallel jobs
+Reusable workflows — workflow_call
+
+📌 Level 4 — CD Concepts
+
+Docker build & push to Docker Hub / ECR
+GitHub Environments — dev/staging/prod
+Deployment with approvals — manual gate
+Deploy to EC2 / EKS
+
+📌 Level 5 — Advanced
+
+Self-hosted runners
+OIDC — AWS authentication (no hardcoded keys)
+SonarQube integration
+Security scanning — Trivy, Snyk
+Notifications — Slack/email on failure
+
+
+
+-----------------------------------------------------------------------
+
+Tasks 
+
+-----------------------------------------------------------------------
+
+
+🎯 Tera First Task
+Task 1 — Triggers Practice
+Ek repo bana (ya existing use kar), aur ye 3 alag alag workflows bana:
+File 1: .github/workflows/on-push.yml
+yamlname: On Push Trigger
+on:
+  push:
+    branches: [ main ]
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Say Hello
+        run: echo "Triggered by PUSH on main!"
+File 2: .github/workflows/on-pr.yml
+yamlname: On PR Trigger
+on:
+  pull_request:
+    branches: [ main ]
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Say Hello
+        run: echo "Triggered by PULL REQUEST!"
+File 3: .github/workflows/manual.yml
+yamlname: Manual Trigger
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Which environment?'
+        required: true
+        default: 'dev'
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Say Hello
+        run: echo "Manually triggered for ${{ github.event.inputs.environment }}"
+
+✅ Kya observe karna hai?
+
+Push karo → on-push.yml trigger ho
+PR banao → on-pr.yml trigger ho
+Actions tab → manual.yml → Run workflow button dikhega → input doge → run hoga
+
+
+-----------------------------------------------------------
+
+NOW BEFORE MOVING ON WRITING A WORKFLOW WE NEED TO UNDERSTAND THE PROCEESS TO WRITE ANY WORKFLOW
+
+-----------------------------------------------------------
+
+
+Steps to memorize to write any workflow
+
+🧠 GitHub Actions = 5 Questions
+Jab bhi workflow likhna ho, bas ye 5 sawaal khud se pucho:
+1. NAME    → Is workflow ka naam kya hai?
+2. ON      → Kab chalega? (push/PR/manual/schedule)
+3. JOBS    → Kaunsa kaam karna hai? (ek ya multiple?)
+4. RUNS-ON → Kahan chalega? (ubuntu/windows/mac)
+5. STEPS   → Step by step kya karna hai?
+Bas itna! Poora workflow inhi 5 ka answer hai.
+
+🏗️ Structure hamesha same rehta hai
+name: (workflow ka naam)
+
+on: (trigger)
+
+jobs:
+  (job-naam):
+    runs-on: (machine)
+    steps:
+      - name: (step naam)
+        run: (command)
+          OR
+        uses: (action)
+
+✍️ Likhne ka order
+1. Pehle "on" socho    → kab trigger hoga
+2. Phir "jobs" socho   → kya kaam karna hai
+3. Phir "steps" socho  → ek ek step kya hogi
+4. "runs-on" default   → ubuntu-latest almost hamesha
+5. "name" last me      → jo chahe rakh do
+
+🔑 Sirf 2 tarah ke steps hote hain
+yaml# Type 1 — Command run karo
+- name: Kuch bhi
+  run: echo "hello"
+
+# Type 2 — Kisi ka banaya action use karo
+- name: Kuch bhi
+  uses: actions/checkout@v4

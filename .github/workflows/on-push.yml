@@ -1,0 +1,13 @@
+# workflow 1
+name: On Push Trigger   
+on:
+  push:
+    branches: [main]
+
+jobs:
+   print-hello:
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Hello World
+        run: echo "Triggered by PUSH on main branch"
