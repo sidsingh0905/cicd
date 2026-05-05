@@ -2,21 +2,21 @@
 name: on-manual-trigger
 
 on:
-    workflow_dispatch:
-       inputs:
-            Environments:
-                description: 'Select the environment to deploy'
-                required: true
-                default: 'dev'
-                type: choice
-                options:
-                    - dev
-                    - staging
-                    - production
-            
+  workflow_dispatch:
+    inputs:
+      Environments:
+        description: 'Select the environment to deploy'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - staging
+          - production
+
 jobs:
-    print-hello:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Print Hello World
-              run: echo "Triggered by manual workflow dispatch with environment: ${{ github.event.inputs.Environments }}"
+  print-hello:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Hello World
+        run: echo "Triggered manually with environment: ${{ github.event.inputs.Environments }}"
