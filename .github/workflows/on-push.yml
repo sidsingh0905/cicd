@@ -3,6 +3,8 @@ name: On Push Trigger
 on:
   push:
     branches: [main]
+    paths: 
+      - 'src/**'
 
 jobs:
    print-hello:
