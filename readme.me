@@ -217,3 +217,26 @@ Key Learnings:
 - failure() and always() override the default skip behaviour
 - Use exit 1 to intentionally fail a step for testing
 - Combine conditions: if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+
+
+
+
+-----------------------------------------------------------
+Level 2 - Task 3 — Matrix Strategy
+-----------------------------------------------------------
+
+Run same job across multiple configurations in parallel.
+
+strategy:
+  matrix:
+    python: ["3.10", "3.11", "3.12"]
+    os: [ubuntu-latest, windows-latest]
+
+Total jobs = 3 versions × 2 OS = 6 parallel jobs!
+
+Key points:
+- runs-on: ${{ matrix.os }} → dynamic OS
+- python-version: ${{ matrix.python }} → dynamic version
+- actions/checkout@v4 → clones repo on fresh runner
+- actions/setup-python@v4 → installs python on runner
