@@ -174,3 +174,46 @@ env: 3 levels pe use kar sakte ho:
 Key Rule: Secret print nahi karte — directly command me use karte hain!
   ❌ echo "${{ secrets.PASSWORD }}"
   ✅ docker login -p ${{ secrets.PASSWORD }}
+
+
+
+
+
+
+
+  ------------------------------------------------- 
+
+
+  -----------------------------------------------------------
+Level 2 - Task 2 — Conditional Steps (if:)
+-----------------------------------------------------------
+
+Use conditions to control which steps run based on context.
+
+Common Conditions:
+
+1) Branch check
+   if: github.ref == 'refs/heads/main'
+   Use: Run only when push happens on main branch
+
+2) Event type check
+   if: github.event_name == 'workflow_dispatch'
+   Use: Run only when manually triggered
+
+3) Input check
+   if: github.event.inputs.environment == 'production'
+   Use: Run only when production environment is selected
+
+4) Actor check
+   if: github.actor == 'sidsingh0905'
+   Use: Run only when triggered by a specific user
+
+5) Status functions (most important):
+   if: failure()  → runs when previous step fails (cleanup/rollback)
+   if: always()   → runs regardless of pass or fail (notifications)
+   if: success()  → runs only when all previous steps pass (deploy)
+
+Key Learnings:
+- failure() and always() override the default skip behaviour
+- Use exit 1 to intentionally fail a step for testing
+- Combine conditions: if: github.ref == 'refs/heads/main' && github.event_name == 'push'
