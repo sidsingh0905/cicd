@@ -1,0 +1,50 @@
+name: All Conditions Demo
+
+on:
+  push:
+    branches: [ main, develop ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Select environment'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - staging
+          - production
+
+jobs:
+  conditional-demo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Always runs
+        run: echo "This step always runs!"
+
+      - name: Only on main branch
+        if: github.ref == 'refs/heads/main'
+        run: echo "Running only on main branch!"
+
+      - name: Only on manual trigger
+        if: github.event_name == 'workflow_dispatch'
+        run: echo "Triggered manually!"
+
+      - name: Only on production input
+        if: github.event.inputs.environment == 'production'
+        run: echo "Production environment selected!"
+
+      - name: Only if actor is you
+        if: github.actor == 'sidsingh0905'
+        run: echo "Triggered by sidsingh0905!"
+
+      - name: Intentional failure
+        run: exit 1
+
+      - name: Runs only on failure
+        if: failure()
+        run: echo "Something failed - running cleanup!"
+
+      - name: Runs always
+        if: always()
+        run: echo "This runs regardless of pass or fail!"
