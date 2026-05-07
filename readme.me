@@ -240,3 +240,49 @@ Key points:
 - python-version: ${{ matrix.python }} → dynamic version
 - actions/checkout@v4 → clones repo on fresh runner
 - actions/setup-python@v4 → installs python on runner
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------
+Level 2 - Task 4 — Caching
+-----------------------------------------------------------
+
+Cache saves dependencies between runs — avoids re-downloading every time.
+
+How it works:
+- Run 1 → Cache Miss → pip install → cache saved
+- Run 2 → Cache Hit → Using cached → fast!
+
+Key components:
+  uses: actions/cache@v3
+  with:
+    path: ~/.cache/pip
+    key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+
+path → where cache is stored
+key  → unique cache identifier
+
+hashFiles('requirements.txt'):
+- Reads requirements.txt content → generates unique hash
+- requirements.txt changed → new hash → Cache Miss → fresh install
+- requirements.txt same → same hash → Cache Hit → skip install!
+
+Cache order (important!):
+1. Checkout
+2. Setup Python
+3. Cache ← must be before install!
+4. Install dependencies
+5. Run code
+
+Real world benefit:
+- Small project (3 packages) → negligible difference
+- Large project (100+ packages) → 5min → 30sec!
+
+Note: Runner variance (2-3s difference) is normal — shared machines!
