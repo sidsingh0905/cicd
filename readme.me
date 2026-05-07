@@ -140,3 +140,37 @@ yaml# Type 1 — Command run karo
 # Type 2 — Kisi ka banaya action use karo
 - name: Kuch bhi
   uses: actions/checkout@v4
+
+
+
+
+
+
+
+-----------------------------------------------------------
+Level 2 - Task 1 — Environment Variables & Secrets   - 5/7/2026
+-----------------------------------------------------------
+
+3 tarah ke variables hote hain:
+
+1) Hardcoded env variable — workflow file me hi define karo
+   env:
+     APP_NAME: "MyApp"
+   Use: $APP_NAME
+
+2) GitHub Repository Variables — Settings me store karo
+   Use: ${{ vars.MY_VAR }}
+   Kab: Non-sensitive config jo change ho sakti hai
+
+3) GitHub Secrets — Sensitive data, logs me *** dikhta hai
+   Use: ${{ secrets.MY_SECRET }}
+   Kab: Passwords, API keys, tokens
+
+env: 3 levels pe use kar sakte ho:
+- Workflow level → sab jobs me available
+- Job level → sirf us job me
+- Step level → sirf us step me
+
+Key Rule: Secret print nahi karte — directly command me use karte hain!
+  ❌ echo "${{ secrets.PASSWORD }}"
+  ✅ docker login -p ${{ secrets.PASSWORD }}
