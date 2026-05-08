@@ -25,16 +25,18 @@ jobs:
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
 
   test:
-        needs: build
-        runs-on: ubuntu-latest
-        steps:
-            - name: Test code
-              run: echo "Running tests..."    
+     needs: build
+     runs-on: ubuntu-latest
+     steps:
+       - name: Test code
+         run: echo "Running tests..."    
             
   deploy:
-        needs: test
-        runs-on: ubuntu-latest
-        steps:
-            - name: Deploy Only on main branch
-              if: github.ref == 'refs/heads/main'
-             run: echo "Deploying application..."
+     needs: test
+     runs-on: ubuntu-latest
+     steps:
+       - name: Deploy Only on main branch
+         if: github.ref == 'refs/heads/main'
+         run: echo "Deploying application..."
+
+
