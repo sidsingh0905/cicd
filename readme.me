@@ -328,3 +328,43 @@ Real world use cases:
 - Coverage reports → track code quality
 
 Note: Only repo access members can download artifacts from GitHub UI!
+
+
+
+
+
+
+
+
+-----------------------------------------------------------
+Level 3 - Task 1 — Multi-Job Workflows (needs:)
+-----------------------------------------------------------
+
+Run jobs in sequence using needs: keyword.
+
+Structure:
+  build → test → deploy
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps: ...
+
+  test:
+    needs: build        # waits for build to complete
+    runs-on: ubuntu-latest
+    steps: ...
+
+  deploy:
+    needs: test         # waits for test to complete
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps: ...
+
+Key behaviors:
+- build fails → test skipped → deploy skipped
+- Each job runs on fresh runner
+- needs: takes single job or list: [build, test]
+
+Real world pipeline:
+build → test → security-scan → deploy-staging → deploy-prod
