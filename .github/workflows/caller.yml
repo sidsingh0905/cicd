@@ -1,0 +1,17 @@
+name: caller-workflow
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy-staging:
+    uses: ./.github/workflows/reusable-deploy.yml
+    with:
+      environment: staging
+
+  deploy-prod:
+    uses: ./.github/workflows/reusable-deploy.yml
+    with:
+      environment: production
+    

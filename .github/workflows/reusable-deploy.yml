@@ -1,0 +1,17 @@
+name: Reusable Deploy Workflow
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: 'Select environment'
+        required: true
+        default: 'dev'
+        type: string
+
+jobs:
+    echo-environment:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Print selected environment
+              run: echo "Deploying to ${{ inputs.environment }} environment!"
