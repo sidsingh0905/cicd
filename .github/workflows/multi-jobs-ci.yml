@@ -1,0 +1,40 @@
+name: Multi-Jobs CI Workflow
+
+on: 
+  push:
+    branches: [ main ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.12
+
+      - name: Cache pip dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+
+  test:
+        needs: build
+        runs-on: ubuntu-latest
+        steps:
+            - name: Test code
+              run: echo "Running tests..."    
+            
+  deploy:
+        needs: test
+        runs-on: ubuntu-latest
+        steps:
+            - name: Deploy Only on main branch
+              if: github.ref == 'refs/heads/main'
+             run: echo "Deploying application..."

@@ -286,3 +286,45 @@ Real world benefit:
 - Large project (100+ packages) → 5min → 30sec!
 
 Note: Runner variance (2-3s difference) is normal — shared machines!
+
+
+
+
+
+-----------------------------------------------------------
+Level 2 - Task 5 — Artifacts
+-----------------------------------------------------------
+
+Artifacts save build outputs (files, reports) for later use.
+
+How it works:
+- Job runs → file generated → upload as artifact
+- Team downloads from GitHub UI OR next job uses it
+
+Upload artifact:
+  uses: actions/upload-artifact@v4
+  with:
+    name: test-report
+    path: test-report.txt
+
+Download artifact (in next job):
+  uses: actions/download-artifact@v4
+  with:
+    name: test-report
+
+Access artifacts:
+1. GitHub UI → Actions → Run → Artifacts section → Download
+2. GitHub API → programmatically download
+3. Next job → download-artifact action (most common!)
+
+Caching vs Artifacts:
+- Cache   → speed up installs (pip packages, node_modules)
+- Artifacts → save outputs (reports, binaries, ML models)
+
+Real world use cases:
+- Test reports → QA team downloads and reviews
+- Compiled binaries → deploy to server
+- ML models → train in Job 1, deploy in Job 2
+- Coverage reports → track code quality
+
+Note: Only repo access members can download artifacts from GitHub UI!
