@@ -368,3 +368,56 @@ Key behaviors:
 
 Real world pipeline:
 build → test → security-scan → deploy-staging → deploy-prod
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------
+Level 3 - Task 2 — Reusable Workflows (workflow_call)
+-----------------------------------------------------------
+
+Write once, reuse across multiple workflows/repos!
+
+Reusable workflow (reusable-deploy.yml):
+  on:
+    workflow_call:
+      inputs:
+        environment:
+          required: true
+          type: string
+
+  jobs:
+    deploy:
+      steps:
+        - run: echo "Deploying to ${{ inputs.environment }}"
+
+Caller workflow (caller.yml):
+  jobs:
+    deploy-staging:
+      uses: ./.github/workflows/reusable-deploy.yml
+      with:
+        environment: staging
+
+    deploy-prod:
+      uses: ./.github/workflows/reusable-deploy.yml
+      with:
+        environment: production
+
+Key points:
+- workflow_call → makes workflow reusable
+- uses: → calls reusable workflow
+- type: string (not choice) in workflow_call inputs
+- Reusable workflow does not appear separately in Actions tab
+- Caller workflow internally triggers reusable workflow
+
+Real world use:
+- Same deploy logic → reuse across dev/staging/prod
+- DRY principle — Don't Repeat Yourself!
