@@ -1,0 +1,29 @@
+name: Environmental CI
+
+on:
+  push:
+     branches: [main]
+
+jobs:
+    deploy-dev:
+        runs-on: ubuntu-latest
+        environment: dev
+        steps:
+            - name: Deploy Code on Dev Environment
+              run: echo "Deploying code to Dev Environment"
+
+    deploy-qa:
+        needs: deploy-dev
+        runs-on: ubuntu-latest
+        environment: qa
+        steps:
+            - name: Deploy Code on QA Environment
+              run: echo "Deploying code to QA Environment"
+
+    deploy-prod:
+        needs: deploy-qa
+        runs-on: ubuntu-latest
+        environment: prod
+        steps:
+            - name: Deploy Code on Prod Environment
+              run: echo "Deploying code to Prod Environment"
