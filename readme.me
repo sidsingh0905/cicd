@@ -460,3 +460,50 @@ COPY    → copy files
 RUN     → install dependencies
 EXPOSE  → port
 CMD     → start command
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------
+Level 4 - Task 2 — GitHub Environments & Approvals
+-----------------------------------------------------------
+
+Create environment-specific deployment protection rules.
+
+Setup:
+Settings → Environments → New environment
+
+1. dev → no protection
+2. staging → no protection  
+3. production → Required reviewers (add username)
+
+Workflow with environments:
+  jobs:
+    deploy-prod:
+      runs-on: ubuntu-latest
+      environment: production  # triggers approval gate
+      steps:
+        - run: echo "Deploying to production!"
+
+Flow:
+dev → auto deploy ✅
+staging → auto deploy ✅
+production → WAITS for approval ⏸️ → approve → deploy ✅
+
+Key features:
+- Required reviewers → manual approval gate
+- Wait timer → delay before deployment
+- Environment secrets → separate secrets per env
+- Environment variables → separate config per env
+
+Real world use:
+- Production always needs approval
+- Prevents accidental prod deploys
+- Senior engineer reviews before prod
+- Compliance requirement in many companies
